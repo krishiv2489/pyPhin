@@ -1,0 +1,6 @@
+#!/home/krishiv/python/venv/bin/python
+import sys
+from textual_dev.cli import run
+if __name__ == '__main__':
+    sys.argv[0] = sys.argv[0].removesuffix('.exe')
+    sys.exit(run())

@@ -1,0 +1,20 @@
+Screen {
+    layout: vertical;
+}
+#main {
+    layout: horizontal;
+    height: 1fr;
+}
+
+#left_list {
+    width: 30%;
+    border: round #870087;
+}
+#right_list {
+    width: 70%;
+    border: round #870087;
+}
+.r{
+    height: 1;
+    color: magenta;
+}
