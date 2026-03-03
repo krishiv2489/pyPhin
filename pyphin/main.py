@@ -62,18 +62,43 @@ class FileExplorerApp(App):
     def update_right_panel(self, dirs, files):
         self.right_list.clear()
 
-        self.right_list.append(ListItem(Label("📁")))
-        self.right_list.append(ListItem(Static("---------------")))
+        if len(dirs) != 0 and len(files) != 0:
+            self.right_list.append(ListItem(Label("📁")))
+            self.right_list.append(ListItem(Static("---------------")))
 
-        for d in dirs:
-            self.right_list.append(ListItem(Label(d), name=d))
+            for d in dirs:
+                self.right_list.append(ListItem(Label(d), name=d))
 
-        self.right_list.append(ListItem(Static()))
-        self.right_list.append(ListItem(Label("📄")))
-        self.right_list.append(ListItem(Static("---------------")))
+            self.right_list.append(ListItem(Static()))
+            self.right_list.append(ListItem(Label("📄")))
+            self.right_list.append(ListItem(Static("---------------")))
 
-        for f in files:
-            self.right_list.append(ListItem(Label(f), name=f))
+            for f in files:
+                self.right_list.append(ListItem(Label(f), name=f))
+                
+        elif len(dirs) == 0 and len(files) != 0 :
+            self.right_list.append(ListItem(Label("📄")))
+            self.right_list.append(ListItem(Static("---------------")))
+
+            for f in files:
+                self.right_list.append(ListItem(Label(f), name=f))
+                
+        elif len(files) == 0 and len(dirs) != 0 and dirs[0] != "<Permission Denied>":
+            self.right_list.append(ListItem(Label("📁")))
+            self.right_list.append(ListItem(Static("---------------")))
+
+            for d in dirs:
+                self.right_list.append(ListItem(Label(d), name=d))
+
+        elif len(files) == 0 and len(dirs) == 0:
+            self.right_list.append(ListItem(Static("----Empty Directory!----")))
+            
+        elif dirs[0] == "<Permission Denied>":
+            for d in dirs:
+                self.right_list.append(ListItem(Label(d), name=d))
+            
+        else:
+            self.right_list.append(ListItem(Static("----Error reading Directory!----")))
     
     def on_list_view_selected(self, event: ListView.Selected):
         if event.list_view.id == "left_list" and event.item:
