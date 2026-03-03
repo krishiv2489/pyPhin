@@ -1,0 +1,13 @@
+[project]
+name = "pyphin"
+version = "0.1.0"
+description = "TUI file explorer built with Textual"
+authors = [{ name="Krishiv" }]
+dependencies = ["textual"]
+
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[project.scripts]
+pyphin = "pyphin.main:main"

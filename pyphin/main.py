@@ -4,7 +4,7 @@ from textual.containers import Container
 from textual import work, worker
 from textual.worker import Worker, WorkerState
 
-import pyath as pt
+from . import pyath as pt
 
 class FileExplorerApp(App):
     
@@ -103,16 +103,17 @@ class FileExplorerApp(App):
             self.right_list.clear()
             self.right_list.append(ListItem(Label("Error reading directory")))
             
-    def action_enterDir(self, event: ListView.Selected):
-        if event.list_view.id == "left_list" and event.item:
-            folderNamePreview = event.item.name
-            self.core.goInto(folderNamePreview)
-            self.refresh_left_panel()
-            self.left_list.index = 0
+    def action_enterDir(self):
+        pass
     
     def action_goBack(self):
         pass
     
+
 if __name__ == "__main__":
+    app = FileExplorerApp()
+    app.run()
+    
+def main():
     app = FileExplorerApp()
     app.run()
