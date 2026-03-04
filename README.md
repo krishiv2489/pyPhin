@@ -32,7 +32,6 @@ It is designed to be readable as a codebase too — a learning project that does
 
 ## Screenshots
 
-> *Add your screenshots here.*
 
 | Main View | Properties Panel |
 |-----------|-----------------|
