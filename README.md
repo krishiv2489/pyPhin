@@ -10,13 +10,14 @@
 ```
 
 **A minimal, keyboard-driven file explorer for the terminal.**  
-*Built with Python and Textual — fast, clean, no bloat.*
+_Built with Python and Textual — fast, clean, no bloat._
 
 ![Python](https://img.shields.io/badge/Python-3.10%2B-blue?style=flat-square&logo=python&logoColor=white)
 ![Textual](https://img.shields.io/badge/Textual-TUI-purple?style=flat-square)
 ![Platform](https://img.shields.io/badge/Platform-Linux-orange?style=flat-square&logo=linux&logoColor=white)
 ![License](https://img.shields.io/badge/License-MIT-green?style=flat-square)
 ![Status](https://img.shields.io/badge/Status-Active-brightgreen?style=flat-square)
+![PyPI](https://img.shields.io/pypi/v/pyphin?style=flat-square&color=b4befe)
 
 </div>
 
@@ -32,9 +33,8 @@ It is designed to be readable as a codebase too — a learning project that does
 
 ## Screenshots
 
-
-| Main View | Properties Panel |
-|-----------|-----------------|
+| Main View                          | Properties Panel                          |
+| ---------------------------------- | ----------------------------------------- |
 | ![Main View](screenshots/main.png) | ![Properties](screenshots/properties.png) |
 
 ---
@@ -55,48 +55,127 @@ It is designed to be readable as a codebase too — a learning project that does
 
 ## Keybindings
 
-| Key | Action |
-|-----|--------|
-| `s` | Enter highlighted directory |
-| `w` | Go up to parent directory |
+| Key | Action                        |
+| --- | ----------------------------- |
+| `s` | Enter highlighted directory   |
+| `w` | Go up to parent directory     |
 | `a` | Show file / folder properties |
-| `q` | Quit |
+| `q` | Quit                          |
 
 ---
 
 ## Installation
 
-### Prerequisites
+pyPhin requires **Python 3.10 or higher**. Pick the method that matches your system below.
 
-- Python 3.10 or higher
-- `pip`
+---
 
-### From source
+### Ubuntu / Debian / Linux Mint
+
+The recommended way on Debian-based systems is `pipx`, which automatically manages an isolated environment for CLI tools so it never conflicts with your system Python.
+
+```bash
+sudo apt install pipx
+pipx install pyphin
+pyphin
+```
+
+If you don't want to use `pipx`, you can install directly with pip — just be aware this goes into your system Python:
+
+```bash
+pip install pyphin
+```
+
+---
+
+### Arch Linux / EndeavourOS / Manjaro
+
+Arch marks its system Python as externally managed (PEP 668), meaning plain `pip install` will be blocked by default. The cleanest solution is `pipx`, which is available directly from pacman:
+
+```bash
+sudo pacman -S python-pipx
+pipx install pyphin
+pyphin
+```
+
+If you prefer pip and understand the risk of bypassing the system protection:
+
+```bash
+pip install pyphin --break-system-packages
+```
+
+---
+
+### Fedora / RHEL / CentOS
+
+```bash
+pip install pyphin
+```
+
+If pip is blocked on your system:
+
+```bash
+pipx install pyphin
+```
+
+---
+
+### macOS
+
+macOS ships with a system Python that should not be touched. Use `pipx` via Homebrew:
+
+```bash
+brew install pipx
+pipx install pyphin
+pyphin
+```
+
+---
+
+### Termux (Android)
+
+pyPhin works on Termux since Textual renders correctly in its terminal emulator. Make sure your Termux is up to date first:
+
+```bash
+pkg update && pkg upgrade
+pkg install python
+pip install pyphin
+pyphin
+```
+
+> Note: Folder size calculation (`a` key) may be slower on Termux for large directories since Android storage I/O is slower than desktop Linux. Everything else works normally.
+
+---
+
+### Windows (WSL)
+
+pyPhin is currently Linux-only. The recommended way to run it on Windows is through WSL (Windows Subsystem for Linux). Once you have a WSL distribution set up, follow the Ubuntu instructions above inside your WSL terminal.
+
+Native Windows support is on the roadmap.
+
+---
+
+### Manual Installation from Source
+
+If you want to run the latest development version directly from the repository, or want to contribute to the project:
 
 ```bash
 # 1. Clone the repository
 git clone https://github.com/krishiv2489/pyPhin.git
 cd pyPhin
 
-# 2. Create and activate a virtual environment (recommended)
+# 2. Create an isolated virtual environment (keeps your system Python clean)
 python -m venv .venv
 source .venv/bin/activate
 
-# 3. Install in editable mode
+# 3. Install in editable mode — changes to the source are reflected immediately
 pip install -e .
 
 # 4. Run
 pyphin
 ```
 
-### Without a virtual environment
-
-```bash
-git clone https://github.com/krishiv2489/pyPhin.git
-cd pyPhin
-pip install . --break-system-packages
-pyphin
-```
+Editable mode (`-e`) is useful for development because you can edit `main.py` or `pyath.py` and the changes take effect the next time you run `pyphin` without reinstalling.
 
 ---
 
@@ -110,6 +189,7 @@ pyPhin/
 │   ├── pyath.py          # Backend: path traversal, metadata, filesystem ops
 │   └── file.tcss         # Textual CSS — layout and styling
 ├── pyproject.toml        # Build config and entry point
+├── LICENSE
 └── README.md
 ```
 
@@ -135,7 +215,7 @@ These are features planned or under consideration:
 - [ ] Bookmarks — save and jump to favourite paths
 - [ ] Sort modes — cycle between name, size, and modified date ordering
 - [ ] Rename and delete — with a confirmation modal
-- [ ] Windows support — abstract the home path detection for cross-platform use
+- [ ] Windows support — native support without WSL
 
 ---
 
