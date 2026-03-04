@@ -1,29 +1,139 @@
+/* ============================================
+   pyPhin — Catppuccin Mocha Theme
+   Palette:
+     Base      #1e1e2e   Background
+     Mantle    #181825   Deeper bg
+     Crust     #11111b   Darkest
+     Surface0  #313244   Subtle surface
+     Surface1  #45475a   Border dim
+     Mauve     #cba6f7   Primary accent
+     Lavender  #b4befe   Secondary accent
+     Blue      #89b4fa   Info
+     Text      #cdd6f4   Main text
+     Subtext1  #a6adc8   Dim text
+     Red       #f38ba8   Error
+     Green     #a6e3a1   Success
+============================================ */
+
+/* ── Global ──────────────────────────────── */
 Screen {
     layout: vertical;
-    background: #171717;
+    background: #1e1e2e;
+    color: #cdd6f4;
 }
+
+/* ── Title bar ───────────────────────────── */
+#title_bar {
+    height: 1;
+    background: #181825;
+    color: #cba6f7;
+    text-style: bold;
+    content-align: center middle;
+    border-bottom: solid #313244;
+}
+
+/* ── Path bar ────────────────────────────── */
+#path_bar {
+    height: 1;
+    background: #181825;
+    color: #a6adc8;
+    padding: 0 2;
+    border-bottom: solid #313244;
+}
+
+/* ── Main two-panel container ────────────── */
 #main {
     layout: horizontal;
     height: 1fr;
-    background: #171717;
+    background: #1e1e2e;
 }
 
+/* ── Left panel (navigator) ──────────────── */
 #left_list {
     width: 30%;
-    border: round #4b3e6e;
+    border: round #45475a;
+    background: #181825;
+    padding: 0 1;
+    scrollbar-color: #cba6f7;
+    scrollbar-color-hover: #b4befe;
+    scrollbar-background: #181825;
 }
+
+#left_list:focus {
+    border: round #cba6f7;
+}
+
+/* ── Right panel (preview / info) ────────── */
 #right_list {
     width: 70%;
-    border: round #4b3e6e;
+    border: round #45475a;
+    background: #1e1e2e;
+    padding: 0 1;
+    scrollbar-color: #cba6f7;
+    scrollbar-color-hover: #b4befe;
+    scrollbar-background: #1e1e2e;
 }
-.r{
-    height: 1;
-    color: magenta;
+
+#right_list:focus {
+    border: round #cba6f7;
 }
-.error{
-    color: red;
+
+/* ── List items ──────────────────────────── */
+ListView > ListItem {
+    background: transparent;
+    color: #cdd6f4;
+    padding: 0 1;
+}
+
+ListView > ListItem:hover {
+    background: #313244;
+    color: #cdd6f4;
+}
+
+ListView > ListItem.--highlighted {
+    background: #313244;
+    color: #cba6f7;
     text-style: bold;
 }
-ListView > ListItem.--highlighted {
-    color: magenta;
+
+/* ── Section headers (.r = folder/file icons) */
+.r {
+    height: 1;
+    color: #b4befe;
+    text-style: bold;
+    padding: 0 1;
+}
+
+/* ── Separator statics ───────────────────── */
+Static {
+    color: #45475a;
+}
+
+/* ── Properties key label ────────────────── */
+.meta_key {
+    color: #89b4fa;
+    text-style: bold;
+}
+
+/* ── Error states ────────────────────────── */
+.error {
+    color: #f38ba8;
+    text-style: bold;
+}
+
+/* ── Footer ──────────────────────────────── */
+Footer {
+    background: #181825;
+    color: #a6adc8;
+    border-top: solid #313244;
+}
+
+Footer > .footer--key {
+    background: #313244;
+    color: #cba6f7;
+    text-style: bold;
+}
+
+Footer > .footer--description {
+    color: #a6adc8;
 }
