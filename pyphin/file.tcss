@@ -25,30 +25,34 @@ Screen {
 /* ── Title bar ───────────────────────────── */
 #title_bar {
     height: 1;
+    min-height: 1;
+    max-height: 1;
     background: #181825;
-    color: #cba6f7;
+    color: #cba6f7;           /* mauve text — bright enough to see on dark bg */
     text-style: bold;
     content-align: center middle;
-    border-bottom: solid #313244;
+    /* no border-bottom — borders on height:1 widgets consume the only cell and collapse content */
 }
 
 /* ── Path bar ────────────────────────────── */
 #path_bar {
     height: 1;
-    background: #181825;
+    min-height: 1;
+    max-height: 1;
+    background: #313244;      /* slightly lighter than title so the two bars look distinct */
     color: #a6adc8;
     padding: 0 2;
-    border-bottom: solid #313244;
+    /* no border-bottom — same reason as above */
 }
 
 /* ── Main two-panel container ────────────── */
 #main {
     layout: horizontal;
-    height: 1fr;
+    height: 1fr;              /* takes all space left after title + path bars */
     background: #1e1e2e;
 }
 
-/* ── Left panel (navigator) ──────────────── */
+/* ── Left panel ──────────────────────────── */
 #left_list {
     width: 30%;
     border: round #45475a;
@@ -63,7 +67,7 @@ Screen {
     border: round #cba6f7;
 }
 
-/* ── Right panel (preview / info) ────────── */
+/* ── Right panel ─────────────────────────── */
 #right_list {
     width: 70%;
     border: round #45475a;
@@ -96,7 +100,7 @@ ListView > ListItem.--highlighted {
     text-style: bold;
 }
 
-/* ── Section headers (.r = folder/file icons) */
+/* ── Section headers (folders / files labels) */
 .r {
     height: 1;
     color: #b4befe;
@@ -104,15 +108,9 @@ ListView > ListItem.--highlighted {
     padding: 0 1;
 }
 
-/* ── Separator statics ───────────────────── */
-Static {
+/* ── Separator statics — scoped to #main so it doesnt bleed into title/path bars */
+#main Static {
     color: #45475a;
-}
-
-/* ── Properties key label ────────────────── */
-.meta_key {
-    color: #89b4fa;
-    text-style: bold;
 }
 
 /* ── Error states ────────────────────────── */
@@ -125,7 +123,6 @@ Static {
 Footer {
     background: #181825;
     color: #a6adc8;
-    border-top: solid #313244;
 }
 
 Footer > .footer--key {

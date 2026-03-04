@@ -23,13 +23,13 @@ class FileExplorerApp(App):
                 ("w", "goBack",   "Go Back"),
                 ("a", "showMeta", "Properties")] # 'a' triggers the metadata view
     
-    def compose(self) -> ComposeResult: # builds the UI layout — runs once at start
-        yield Static("  pyPhin", id="title_bar") # top bar — just a label, purely cosmetic
-        yield Static("", id="path_bar")          # starts empty, gets filled in on_mount
-        yield Footer()
+    def compose(self) -> ComposeResult:
+        yield Static("  pyPhin", id="title_bar")
+        yield Static(f"  {pt.Path.home()}", id="path_bar")  # real content, not empty string
         with Container(id="main"):
-            yield ListView(id="left_list")  # use ListView instead of ScrollView — same but items are selectable
+            yield ListView(id="left_list")
             yield ListView(id="right_list")
+        yield Footer()  # always last — Footer messes with 1fr if yielded mid-compose
         
     def on_mount(self) -> None: # only runs once when the program is fired and never again
         self.core = pt.Paths(pt.Path.home()) # start at home dir — linux only, needs change for windows
