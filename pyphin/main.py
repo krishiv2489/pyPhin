@@ -20,7 +20,8 @@ class FileExplorerApp(App):
     CSS_PATH = "file.tcss" #for textual cascading style sheets
     BINDINGS = [("q","quit","Exit"),
                 ("s","enterDir","Enter Dir."),
-                ("w","goBack","Go Back")]
+                ("w","goBack","Go Back"),
+                ("a", "showMeta", "Properties")]
     
     def compose(self) -> ComposeResult: # this is the functions / method that makes the tui happen
         yield Footer()
@@ -29,7 +30,7 @@ class FileExplorerApp(App):
             yield ListView(id="right_list")
         
     def on_mount(self) -> None: # only runs once when the program is fired and never again
-        self.theme = "rose-pine" #sets default tui theme but can be changed by user
+        #self.theme = "rose-pine" #sets default tui theme but can be changed by user
         self.core = pt.Paths(pt.Path.home())# for linux only but needs to be changed for windows
         
         self.current_worker = None #sets the worker to none
@@ -208,6 +209,28 @@ class FileExplorerApp(App):
             self.refresh_right_panel(first_item.name)
         else:
             self.right_list.clear()
+            
+    def action_showMeta(self):
+        index = self.left_list.index
+        if index is None:
+            return
+        
+        item = self.left_list.children[index]
+        if not item.name:
+            return
+        
+        meta = self.core.getMetadata(item.name)
+        self.right_list.clear()
+        
+        if "error" in meta:
+            self.right_list.append(ListItem(Label(f"Error: {meta['error']}", classes="error")))
+            return
+        
+        self.right_list.append(ListItem(Label("⚙️ Properties")))
+        self.right_list.append(ListItem(Static("-----------------------------------")))
+        
+        for key, val in meta.items():
+            self.right_list.append(ListItem(Label(f"  {key.capitalize():<13} {val}")))
 
 if __name__ == "__main__":
     app = FileExplorerApp()

@@ -1,18 +1,20 @@
 Screen {
     layout: vertical;
+    background: #171717;
 }
 #main {
     layout: horizontal;
     height: 1fr;
+    background: #171717;
 }
 
 #left_list {
     width: 30%;
-    border: round #870087;
+    border: round #4b3e6e;
 }
 #right_list {
     width: 70%;
-    border: round #870087;
+    border: round #4b3e6e;
 }
 .r{
     height: 1;
@@ -21,4 +23,7 @@ Screen {
 .error{
     color: red;
     text-style: bold;
+}
+ListView > ListItem.--highlighted {
+    color: magenta;
 }
