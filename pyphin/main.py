@@ -1,38 +1,47 @@
+'''
+Program:- pyPhin
+Description:- A file explorer TUI (simple)
+Author:- Krishiv Patel 
+Date:- 28th feb 2026
+GitHub username:- krishiv2489
+Repo:- https://github.com/krishiv2489/pyPhin.git     
+'''
+
 from textual.app import App, ComposeResult
 from textual.widgets import Footer, Static, ListItem, ListView, Label, Rule
 from textual.containers import Container
 from textual import work, worker
-from textual.worker import Worker, WorkerState
+from textual.worker import Worker, WorkerState 
 
-from . import pyath as pt
+from . import pyath as pt #to import the functions of the backend
 
 class FileExplorerApp(App):
     
-    CSS_PATH = "file.tcss"
+    CSS_PATH = "file.tcss" #for textual cascading style sheets
     BINDINGS = [("q","quit","Exit"),
                 ("s","enterDir","Enter Dir."),
                 ("w","goBack","Go Back")]
     
-    def compose(self) -> ComposeResult:
+    def compose(self) -> ComposeResult: # this is the functions / method that makes the tui happen
         yield Footer()
         with Container(id="main"):
-            yield ListView(id="left_list")
+            yield ListView(id="left_list") #use this instead of vertical scroll as this is same but selectable
             yield ListView(id="right_list")
         
-    def on_mount(self) -> None:
-        self.theme = "rose-pine"
-        self.core = pt.Paths('/')
+    def on_mount(self) -> None: # only runs once when the program is fired and never again
+        self.theme = "rose-pine" #sets default tui theme but can be changed by user
+        self.core = pt.Paths(pt.Path.home())# for linux only but needs to be changed for windows
         
-        self.current_worker = None
+        self.current_worker = None #sets the worker to none
         
         self.left_list = self.query_one("#left_list", ListView)
         self.right_list = self.query_one("#right_list", ListView)
         self.refresh_left_panel()
 
         if self.left_list.children:
-            self.left_list.index = 0
+            self.left_list.index = 0 #sets the the first item in the left list as selected and displays it on right
             
-            first_item = self.left_list.children[0]
+            first_item = self.left_list.children[0] # gets the first item in the list view and extract the name for the folder to be shown
             folder_name = first_item.name
             self.refresh_right_panel(folder_name)
             
@@ -40,8 +49,43 @@ class FileExplorerApp(App):
         dirs, files = self.core.readEntries()
         self.left_list.clear()
         
-        for d in dirs:
-            self.left_list.append(ListItem(Label(d), name=d))
+        if len(dirs) != 0 and len(files) != 0:
+            self.left_list.append(ListItem(Label("📁")))
+            self.left_list.append(ListItem(Static("---------------")))
+
+            for d in dirs:
+                self.left_list.append(ListItem(Label(d), name=d))
+
+            self.left_list.append(ListItem(Static()))
+            self.left_list.append(ListItem(Label("📄")))
+            self.left_list.append(ListItem(Static("---------------")))
+
+            for f in files:
+                self.left_list.append(ListItem(Label(f), name=f))
+                
+        elif len(dirs) == 0 and len(files) != 0 :
+            self.left_list.append(ListItem(Label("📄")))
+            self.left_list.append(ListItem(Static("---------------")))
+
+            for f in files:
+                self.left_list.append(ListItem(Label(f), name=f))
+                
+        elif len(files) == 0 and len(dirs) != 0 and dirs[0] != "<Permission Denied>":
+            self.left_list.append(ListItem(Label("📁")))
+            self.left_list.append(ListItem(Static("---------------")))
+
+            for d in dirs:
+                self.left_list.append(ListItem(Label(d), name=d))
+
+        elif len(files) == 0 and len(dirs) == 0:
+            self.left_list.append(ListItem(Static("----Empty Directory!----"), classes="error"))
+            
+        elif dirs[0] == "<Permission Denied>":
+            for d in dirs:
+                self.left_list.append(ListItem(Label(d), name=d, classes="error"))
+            
+        else:
+            self.left_list.append(ListItem(Static("----Error reading Directory!----"),classes="error"))
     
     def refresh_right_panel(self, folder_name):
         
@@ -152,8 +196,18 @@ class FileExplorerApp(App):
                 
                 
     def action_goBack(self):
-        pass
-    
+        self.core.goUp()
+        self.call_later(self._after_navigation)
+        
+    def _after_navigation(self):
+        self.refresh_left_panel()
+        
+        if self.left_list.children:
+            self.left_list.index = 0
+            first_item = self.left_list.children[0]
+            self.refresh_right_panel(first_item.name)
+        else:
+            self.right_list.clear()
 
 if __name__ == "__main__":
     app = FileExplorerApp()
