@@ -91,19 +91,20 @@ class FileExplorerApp(App):
                 self.right_list.append(ListItem(Label(d), name=d))
 
         elif len(files) == 0 and len(dirs) == 0:
-            self.right_list.append(ListItem(Static("----Empty Directory!----")))
+            self.right_list.append(ListItem(Static("----Empty Directory!----"), classes="error"))
             
         elif dirs[0] == "<Permission Denied>":
             for d in dirs:
-                self.right_list.append(ListItem(Label(d), name=d))
+                self.right_list.append(ListItem(Label(d), name=d, classes="error"))
             
         else:
-            self.right_list.append(ListItem(Static("----Error reading Directory!----")))
+            self.right_list.append(ListItem(Static("----Error reading Directory!----"),classes="error"))
     
     def on_list_view_selected(self, event: ListView.Selected):
         if event.list_view.id == "left_list" and event.item:
             folderNamePreview = event.item.name
             self.refresh_right_panel(folderNamePreview)
+            return folderNamePreview
         
     @work(thread=True)
     def loadDir(self, path):
@@ -129,8 +130,27 @@ class FileExplorerApp(App):
             self.right_list.append(ListItem(Label("Error reading directory")))
             
     def action_enterDir(self):
-        pass
-    
+        if not self.left_list.highlighted_child: 
+            return
+        
+        index = self.left_list.index
+        if index is None:
+            return
+        
+        item = self.left_list.children[index]
+        folder_name = item.name
+        
+        if self.core.goInto(folder_name):
+            self.refresh_left_panel()
+            
+            if self.left_list.children:
+                self.left_list.index = 0
+                first_item = self.left_list.children[0]
+                self.refresh_right_panel(first_item.name)
+            else:
+                self.right_list.clear()    
+                
+                
     def action_goBack(self):
         pass
     
