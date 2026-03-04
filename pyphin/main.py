@@ -62,24 +62,24 @@ class FileExplorerApp(App):
         
         if dirs and files: # both exist — show folders section then files section
             self.left_list.append(ListItem(Label("  📁  Folders"), classes="r"))
-            self.left_list.append(ListItem(Static("  ───────────────────")))
+            self.left_list.append(ListItem(Static("  ───────────────────"), classes="sep"))
             for d in dirs:
                 self.left_list.append(ListItem(Label(f"  {d}"), name=d)) # name= is important — used to identify item later
             self.left_list.append(ListItem(Static(""))) # spacer between sections
             self.left_list.append(ListItem(Label("  📄  Files"), classes="r"))
-            self.left_list.append(ListItem(Static("  ───────────────────")))
+            self.left_list.append(ListItem(Static("  ───────────────────"), classes="sep"))
             for f in files:
                 self.left_list.append(ListItem(Label(f"  {f}"), name=f))
                 
         elif not dirs and files: # only files, no folders
             self.left_list.append(ListItem(Label("  📄  Files"), classes="r"))
-            self.left_list.append(ListItem(Static("  ───────────────────")))
+            self.left_list.append(ListItem(Static("  ───────────────────"), classes="sep"))
             for f in files:
                 self.left_list.append(ListItem(Label(f"  {f}"), name=f))
                 
         elif dirs and not files and dirs[0] != "<Permission Denied>": # only folders, no files
             self.left_list.append(ListItem(Label("  📁  Folders"), classes="r"))
-            self.left_list.append(ListItem(Static("  ───────────────────")))
+            self.left_list.append(ListItem(Static("  ───────────────────"), classes="sep"))
             for d in dirs:
                 self.left_list.append(ListItem(Label(f"  {d}"), name=d))
 
@@ -113,24 +113,24 @@ class FileExplorerApp(App):
 
         if dirs and files:
             self.right_list.append(ListItem(Label("  📁  Folders"), classes="r"))
-            self.right_list.append(ListItem(Static("  ───────────────────")))
+            self.right_list.append(ListItem(Static("  ───────────────────"), classes="sep"))
             for d in dirs:
                 self.right_list.append(ListItem(Label(f"  {d}"), name=d))
             self.right_list.append(ListItem(Static("")))
             self.right_list.append(ListItem(Label("  📄  Files"), classes="r"))
-            self.right_list.append(ListItem(Static("  ───────────────────")))
+            self.right_list.append(ListItem(Static("  ───────────────────"), classes="sep"))
             for f in files:
                 self.right_list.append(ListItem(Label(f"  {f}"), name=f))
                 
         elif not dirs and files:
             self.right_list.append(ListItem(Label("  📄  Files"), classes="r"))
-            self.right_list.append(ListItem(Static("  ───────────────────")))
+            self.right_list.append(ListItem(Static("  ───────────────────"), classes="sep"))
             for f in files:
                 self.right_list.append(ListItem(Label(f"  {f}"), name=f))
                 
         elif dirs and not files and dirs[0] != "<Permission Denied>":
             self.right_list.append(ListItem(Label("  📁  Folders"), classes="r"))
-            self.right_list.append(ListItem(Static("  ───────────────────")))
+            self.right_list.append(ListItem(Static("  ───────────────────"), classes="sep"))
             for d in dirs:
                 self.right_list.append(ListItem(Label(f"  {d}"), name=d))
 

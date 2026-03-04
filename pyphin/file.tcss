@@ -28,10 +28,9 @@ Screen {
     min-height: 1;
     max-height: 1;
     background: #181825;
-    color: #cba6f7;           /* mauve text — bright enough to see on dark bg */
+    color: #cba6f7;
     text-style: bold;
     content-align: center middle;
-    /* no border-bottom — borders on height:1 widgets consume the only cell and collapse content */
 }
 
 /* ── Path bar ────────────────────────────── */
@@ -39,16 +38,15 @@ Screen {
     height: 1;
     min-height: 1;
     max-height: 1;
-    background: #313244;      /* slightly lighter than title so the two bars look distinct */
+    background: #313244;
     color: #a6adc8;
     padding: 0 2;
-    /* no border-bottom — same reason as above */
 }
 
 /* ── Main two-panel container ────────────── */
 #main {
     layout: horizontal;
-    height: 1fr;              /* takes all space left after title + path bars */
+    height: 1fr;
     background: #1e1e2e;
 }
 
@@ -82,10 +80,10 @@ Screen {
     border: round #cba6f7;
 }
 
-/* ── List items ──────────────────────────── */
+/* ── List items — all filenames and folder names ── */
 ListView > ListItem {
     background: transparent;
-    color: #cdd6f4;
+    color: #cdd6f4;           /* bright readable text for all items */
     padding: 0 1;
 }
 
@@ -100,7 +98,7 @@ ListView > ListItem.--highlighted {
     text-style: bold;
 }
 
-/* ── Section headers (folders / files labels) */
+/* ── Section headers (Folders / Files labels) */
 .r {
     height: 1;
     color: #b4befe;
@@ -108,15 +106,25 @@ ListView > ListItem.--highlighted {
     padding: 0 1;
 }
 
-/* ── Separator statics — scoped to #main so it doesnt bleed into title/path bars */
-#main Static {
+/* ── Separator lines — .sep class only, not all Statics
+      this is critical — targeting Static broadly would hit Labels too
+      since Label is a subclass of Static in Textual ── */
+.sep {
     color: #45475a;
 }
 
-/* ── Error states ────────────────────────── */
+/* ── Error states — on both ListItem and its children ── */
 .error {
     color: #f38ba8;
     text-style: bold;
+}
+
+ListItem.error > Static {
+    color: #f38ba8;           /* force error color down into Static child too */
+}
+
+ListItem.error > Label {
+    color: #f38ba8;           /* same for Label children */
 }
 
 /* ── Footer ──────────────────────────────── */
