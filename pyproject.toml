@@ -3,12 +3,19 @@ name = "pyphin"
 version = "0.1.0"
 description = "TUI file explorer built with Textual"
 authors = [{ name = "Krishiv Patel" }]
-license = { file = "LICENSE" }
+license = "MIT"
+license-files = ["LICENSE"]
 requires-python = ">=3.10"
 dependencies = ["textual"]
 
+[tool.setuptools.packages.find]
+include = ["pyphin*"]
+
+[tool.setuptools.package-data]
+pyphin = ["*.tcss"]
+
 [build-system]
-requires = ["setuptools>=61.0"]
+requires = ["setuptools>=77.0"]
 build-backend = "setuptools.build_meta"
 
 [project.scripts]
